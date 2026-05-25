@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Papel timbrado — Felipe de Bortoli Munhoz · Versão 2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <style>
+    @page { size: A4; margin: 0; }
+    html, body {
+      margin: 0; padding: 0;
+      background: #d8d1be;
+      font-family: 'EB Garamond', Georgia, serif;
+      display: flex; justify-content: center; align-items: flex-start;
+      min-height: 100vh;
+      padding: 32px 0;
+    }
+    @media print { html, body { background: white; padding: 0; } }
+    .print-bar { position: fixed; top: 16px; right: 16px; display: flex; gap: 8px; z-index: 1000; font-family: 'Cinzel', serif; font-size: 10.5px; letter-spacing: 0.18em; }
+    .print-bar a, .print-bar button { padding: 10px 16px; background: #152D52; color: #F5F0E6; border: 0; border-radius: 999px; cursor: pointer; text-decoration: none; font: inherit; }
+    .print-bar a.ghost { background: rgba(255,255,255,0.85); color: #152D52; border: 1px solid #e5dfd1; }
+    @media print { .print-bar { display: none; } }
+  </style>
+</head>
+<body>
+  <div class="print-bar">
+    <a href="index.html" class="ghost">← Voltar</a>
+    <button onclick="window.print()">Imprimir / Salvar PDF</button>
+  </div>
+  <div id="root"></div>
+  <script type="text/babel" src="Logo.jsx"></script>
+  <script type="text/babel" src="PetitionExample.jsx"></script>
+  <script type="text/babel" src="Letterhead2.jsx"></script>
+  <script type="text/babel">
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<Letterhead2 exampleText={true} />);
+  </script>
+</body>
+</html>

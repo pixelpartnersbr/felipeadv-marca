@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Papel timbrado — Felipe de Bortoli Munhoz</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <!-- DOCX + PNG export deps -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://unpkg.com/html-to-image@1.11.13/dist/html-to-image.js"></script>
+
+  <style>
+    body { margin: 0; font-family: 'EB Garamond', Georgia, serif; }
+
+    .dc-section-header h2 {
+      font-family: 'Cinzel', serif !important;
+      letter-spacing: 0.18em !important;
+    }
+
+    /* Capture sandbox — full-size letterheads rendered off-screen for export */
+    .capture-sandbox {
+      position: fixed;
+      left: -99999px;
+      top: 0;
+      width: 800px;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* ---------- Download panel ---------- */
+    .download-panel {
+      position: fixed;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(14px);
+      border: 1px solid #e5dfd1;
+      border-radius: 14px;
+      box-shadow: 0 12px 36px -10px rgba(21, 45, 82, 0.22);
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      padding: 10px 12px;
+      display: flex;
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .download-panel .variant {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+    }
+
+    .download-panel .variant + .variant {
+      border-left: 1px solid #e5dfd1;
+      padding-left: 14px;
+    }
+
+    .download-panel .variant-label {
+      color: #BC9D6E;
+      font-size: 9px;
+      letter-spacing: 0.32em;
+      padding: 0 4px 2px;
+    }
+
+    .download-panel .actions {
+      display: flex;
+      gap: 4px;
+    }
+
+    .download-panel .actions a,
+    .download-panel .actions button {
+      padding: 7px 11px;
+      color: #152D52;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.15s;
+      font: inherit;
+      letter-spacing: 0.22em;
+      background: transparent;
+      border: 1px solid transparent;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+    }
+
+    .download-panel .actions a:hover,
+    .download-panel .actions button:hover {
+      background: #152D52;
+      color: #F5F0E6;
+    }
+
+    .download-panel .actions button.docx {
+      background: #152D52;
+      color: #F5F0E6;
+    }
+    .download-panel .actions button.docx:hover {
+      background: #0E1F3A;
+    }
+
+    .download-panel .actions button:disabled {
+      opacity: 0.5;
+      cursor: wait;
+    }
+
+    .download-panel .actions .ic {
+      font-family: 'EB Garamond', serif;
+      font-size: 13px;
+      letter-spacing: 0;
+      line-height: 1;
+    }
+
+    /* ---------- Toast ---------- */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      z-index: 200;
+      background: #152D52;
+      color: #F5F0E6;
+      padding: 12px 22px;
+      border-radius: 12px;
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      box-shadow: 0 12px 36px -10px rgba(0,0,0,0.4);
+      opacity: 0;
+      transition: all 0.25s cubic-bezier(0.2, 0.7, 0.2, 1);
+      pointer-events: none;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    .toast.error {
+      background: #C8362B;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <div id="capture-sandbox-root" class="capture-sandbox"></div>
+  <div id="toast" class="toast"></div>
+
+  <script type="text/babel" src="Logo.jsx"></script>
+  <script type="text/babel" src="PetitionExample.jsx"></script>
+  <script type="text/babel" src="Letterhead1.jsx"></script>
+  <script type="text/babel" src="Letterhead2.jsx"></script>
+  <script type="text/babel" src="Letterhead3.jsx"></script>
+  <script type="text/babel" src="design-canvas.jsx"></script>
+  <script src="docx-builder.js"></script>
+
+  <script type="text/babel">
+    const { useState, useRef } = React;
+
+    function showToast(msg, isError = false) {
+      const el = document.getElementById("toast");
+      el.textContent = msg;
+      el.classList.toggle("error", isError);
+      el.classList.add("show");
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(() => el.classList.remove("show"), 2400);
+    }
+
+    function DownloadPanel() {
+      const [busy, setBusy] = useState({});
+
+      async function handle(variant, kind) {
+        const key = `${variant}-${kind}`;
+        if (busy[key]) return;
+        setBusy(b => ({ ...b, [key]: true }));
+
+        try {
+          const captureEl = document.querySelector(`#capture-${variant} .a4`);
+          if (!captureEl) throw new Error("Variação não encontrada.");
+
+          const filename = `papel-timbrado-fbm-${variant}`;
+
+          if (kind === "docx") {
+            showToast("Gerando .docx (pode levar ~10s)…");
+            await window.downloadAsDocx(
+              captureEl,
+              `${filename}-modelo.docx`,
+              window.LETTERHEAD_MARGINS[variant],
+              window.buildPetitionBody()
+            );
+            showToast(".docx baixado");
+          } else if (kind === "docx-blank") {
+            showToast("Gerando .docx em branco (pode levar ~10s)…");
+            await window.downloadAsDocx(
+              captureEl,
+              `${filename}-em-branco.docx`,
+              window.LETTERHEAD_MARGINS[variant],
+              []
+            );
+            showToast(".docx (em branco) baixado");
+          } else if (kind === "png") {
+            showToast("Gerando .png em alta resolução…");
+            await window.downloadAsPng(captureEl, `${filename}.png`, 3);
+            showToast(".png baixado");
+          }
+        } catch (e) {
+          console.error(e);
+          showToast(`Erro: ${e.message || e}`, true);
+        } finally {
+          setBusy(b => ({ ...b, [key]: false }));
+        }
+      }
+
+      const variants = [
+        { id: "v1", label: "01 · CLÁSSICO" },
+        { id: "v2", label: "02 · DIVIDIDO" },
+        { id: "v3", label: "03 · EDITORIAL" },
+      ];
+
+      return (
+        <div className="download-panel">
+          {variants.map(v => (
+            <div className="variant" key={v.id}>
+              <div className="variant-label">{v.label}</div>
+              <div className="actions">
+                <button
+                  className="docx"
+                  disabled={busy[`${v.id}-docx`]}
+                  onClick={() => handle(v.id, "docx")}
+                  title="Baixar .docx com o modelo de petição editável no Word"
+                >
+                  <span className="ic">↓</span> DOCX
+                </button>
+                <button
+                  disabled={busy[`${v.id}-docx-blank`]}
+                  onClick={() => handle(v.id, "docx-blank")}
+                  title="Baixar .docx em branco — só o papel timbrado, sem texto"
+                >
+                  em branco
+                </button>
+                <a
+                  href={`print-${v.id}.html`}
+                  target="_blank"
+                  rel="noopener"
+                  title="Abrir versão pronta para imprimir ou salvar como PDF"
+                >
+                  PDF
+                </a>
+                <button
+                  disabled={busy[`${v.id}-png`]}
+                  onClick={() => handle(v.id, "png")}
+                  title="Baixar como imagem PNG em alta resolução"
+                >
+                  PNG
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    function CaptureSandbox() {
+      // Off-screen full-size letterheads used as capture sources for DOCX/PNG export.
+      // Kept always-mounted so capture is instant.
+      return (
+        <>
+          <div id="capture-v1"><Letterhead1 exampleText={false} /></div>
+          <div id="capture-v2"><Letterhead2 exampleText={false} /></div>
+          <div id="capture-v3"><Letterhead3 exampleText={false} /></div>
+        </>
+      );
+    }
+
+    function App() {
+      return (
+        <DesignCanvas
+          title="Papel timbrado — Felipe de Bortoli Munhoz"
+          subtitle="Três variações A4. Use o painel no topo para baixar como DOCX, PDF ou PNG."
+        >
+          <DCSection
+            id="letterheads"
+            title="Variações com texto-exemplo"
+            subtitle="A4 · 210×297mm · modelo de petição inicial para visualização"
+          >
+            <DCArtboard id="v1" label="01 · Clássico centralizado" width={800} height={1131}>
+              <Letterhead1 exampleText={true} />
+            </DCArtboard>
+            <DCArtboard id="v2" label="02 · Cabeçalho dividido" width={800} height={1131}>
+              <Letterhead2 exampleText={true} />
+            </DCArtboard>
+            <DCArtboard id="v3" label="03 · Barra lateral editorial" width={800} height={1131}>
+              <Letterhead3 exampleText={true} />
+            </DCArtboard>
+          </DCSection>
+
+          <DCSection
+            id="blank"
+            title="Em branco — pronto para uso"
+            subtitle="As mesmas três versões sem texto-exemplo. O DOCX é gerado a partir destas."
+          >
+            <DCArtboard id="v1b" label="01 · Em branco" width={800} height={1131}>
+              <Letterhead1 exampleText={false} />
+            </DCArtboard>
+            <DCArtboard id="v2b" label="02 · Em branco" width={800} height={1131}>
+              <Letterhead2 exampleText={false} />
+            </DCArtboard>
+            <DCArtboard id="v3b" label="03 · Em branco" width={800} height={1131}>
+              <Letterhead3 exampleText={false} />
+            </DCArtboard>
+          </DCSection>
+        </DesignCanvas>
+      );
+    }
+
+    // Render the main canvas
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(
+      <>
+        <DownloadPanel />
+        <App />
+      </>
+    );
+
+    // Render the off-screen capture sandbox separately (no zoom/pan interference)
+    const sandboxRoot = ReactDOM.createRoot(document.getElementById('capture-sandbox-root'));
+    sandboxRoot.render(<CaptureSandbox />);
+  </script>
+</body>
+</html>

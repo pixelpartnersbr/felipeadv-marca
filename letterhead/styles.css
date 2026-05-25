@@ -1,0 +1,241 @@
+/* Felipe de Bortoli Munhoz — Letterhead shared styles
+   ===================================================== */
+
+:root {
+  --fbm-navy:      #152D52;
+  --fbm-navy-deep: #0E1F3A;
+  --fbm-navy-soft: #2A3F66;
+  --fbm-gold:      #BC9D6E;
+  --fbm-gold-deep: #9B7F50;
+  --fbm-gold-soft: #D9C39A;
+  --fbm-paper:     #F5F0E6;
+  --fbm-paper-warm:#EFE7D6;
+  --fbm-ink:       #1B2436;
+  --fbm-ink-soft:  #4A5168;
+  --fbm-rule:      #D9CDB4;
+
+  /* A4 at ~96dpi: 794 × 1123. We use 800 × 1131 for a hair of breathing room. */
+  --a4-w: 800px;
+  --a4-h: 1131px;
+}
+
+/* ---------- A4 page shell ---------- */
+
+.a4 {
+  width: var(--a4-w);
+  height: var(--a4-h);
+  background: var(--fbm-paper);
+  color: var(--fbm-ink);
+  position: relative;
+  overflow: hidden;
+  font-family: 'EB Garamond', 'Cormorant Garamond', Garamond, 'Times New Roman', serif;
+  font-size: 13.5px;
+  line-height: 1.55;
+  box-shadow:
+    0 1px 0 rgba(21, 45, 82, 0.04),
+    0 24px 60px -28px rgba(21, 45, 82, 0.25),
+    0 8px 24px -16px rgba(21, 45, 82, 0.18);
+  isolation: isolate;
+}
+
+/* ---------- Watermark layer ---------- */
+
+.a4 .watermark {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ---------- Body content ---------- */
+
+.a4 .body {
+  position: relative;
+  z-index: 2;
+  color: var(--fbm-ink);
+  font-feature-settings: "lnum", "kern", "liga";
+}
+
+.a4 .body p {
+  margin: 0 0 12px 0;
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+}
+
+.a4 .body p.indent {
+  text-indent: 2.4em;
+}
+
+.a4 h1.peticao-title {
+  font-family: 'Cinzel', 'Cormorant Garamond', serif;
+  font-size: 13px;
+  letter-spacing: 0.32em;
+  text-align: center;
+  font-weight: 700;
+  margin: 0 0 28px 0;
+  color: var(--fbm-navy);
+}
+
+.a4 .endereco-juiz {
+  text-align: right;
+  font-style: italic;
+  margin-bottom: 36px;
+  color: var(--fbm-ink-soft);
+  line-height: 1.45;
+}
+
+.a4 .processo-tag {
+  display: inline-block;
+  font-family: 'Cinzel', serif;
+  font-size: 9.5px;
+  letter-spacing: 0.22em;
+  color: var(--fbm-gold-deep);
+  border: 1px solid var(--fbm-rule);
+  padding: 5px 10px;
+  margin-bottom: 24px;
+  background: rgba(255,255,255,0.5);
+}
+
+.a4 .salutation {
+  font-style: italic;
+  margin: 24px 0 14px 0;
+  color: var(--fbm-navy);
+}
+
+.a4 .closing {
+  margin-top: 28px;
+}
+
+.a4 .signature-block {
+  margin-top: 48px;
+  text-align: center;
+}
+
+.a4 .signature-line {
+  width: 280px;
+  height: 1px;
+  background: var(--fbm-ink);
+  margin: 0 auto 8px;
+}
+
+.a4 .signature-name {
+  font-family: 'Cinzel', 'Cormorant Garamond', serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: var(--fbm-navy);
+}
+
+.a4 .signature-oab {
+  font-family: 'Cinzel', serif;
+  font-size: 9.5px;
+  letter-spacing: 0.28em;
+  color: var(--fbm-gold-deep);
+  margin-top: 2px;
+}
+
+/* ---------- Eyebrow / page number ---------- */
+
+.eyebrow {
+  font-family: 'Cinzel', 'Cormorant Garamond', serif;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--fbm-gold-deep);
+}
+
+.tiny-mono {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.04em;
+  color: var(--fbm-ink-soft);
+}
+
+/* ---------- Contact line ---------- */
+
+.contact-line {
+  font-family: 'Cinzel', 'Cormorant Garamond', serif;
+  font-size: 9.5px;
+  letter-spacing: 0.22em;
+  color: var(--fbm-ink-soft);
+  text-transform: uppercase;
+}
+
+.contact-line .dot {
+  color: var(--fbm-gold);
+  margin: 0 8px;
+  font-weight: bold;
+}
+
+/* ---------- Decorative rules ---------- */
+
+.gold-rule {
+  height: 1px;
+  background: var(--fbm-gold);
+  border: 0;
+}
+
+.gold-rule.thick {
+  height: 2px;
+}
+
+.gold-rule.dashed {
+  background: none;
+  border-top: 1px dashed var(--fbm-gold);
+  height: 0;
+}
+
+.navy-rule {
+  height: 1px;
+  background: var(--fbm-navy);
+  border: 0;
+}
+
+/* ---------- Pixel/step motif (corner ornament) ---------- */
+
+.corner-steps {
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  pointer-events: none;
+}
+
+.corner-steps svg { display: block; }
+
+/* ---------- Page number ---------- */
+
+.page-num {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--fbm-navy);
+}
+
+.page-num .num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  letter-spacing: 0;
+  font-weight: 600;
+  color: var(--fbm-gold-deep);
+  font-style: italic;
+}
+
+.page-num .sep {
+  color: var(--fbm-gold);
+  font-weight: 300;
+}
+
+/* ---------- Print ---------- */
+
+@media print {
+  body { margin: 0; background: white; }
+  .a4 {
+    width: 210mm;
+    height: 297mm;
+    box-shadow: none;
+    page-break-after: always;
+  }
+}

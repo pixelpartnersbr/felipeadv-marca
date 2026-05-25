@@ -1,0 +1,516 @@
+/* Felipe de Bortoli Munhoz — Brand Manual
+   ========================================
+   Editorial long-scroll site. Generous whitespace, restrained color,
+   classical type, refined detailing. Inspired by monocle / kinfolk /
+   judicial publications. */
+
+:root {
+  /* Brand palette */
+  --fbm-navy:        #152D52;
+  --fbm-navy-deep:   #0E1F3A;
+  --fbm-navy-soft:   #2A3F66;
+  --fbm-navy-pale:   #6B7D9E;
+  --fbm-gold:        #BC9D6E;
+  --fbm-gold-deep:   #9B7F50;
+  --fbm-gold-soft:   #D9C39A;
+  --fbm-gold-pale:   #EBE0CB;
+  --fbm-paper:       #F5F0E6;
+  --fbm-paper-warm:  #EFE7D6;
+  --fbm-paper-deep:  #E5DBC3;
+  --fbm-ink:         #1B2436;
+  --fbm-ink-soft:    #4A5168;
+  --fbm-ink-pale:    #8089A1;
+  --fbm-rule:        #D9CDB4;
+  --fbm-rule-soft:   #E8DFC9;
+  --fbm-error:       #B5453E;
+  --fbm-success:     #3D7A4F;
+
+  /* Type scale */
+  --fs-mega:    clamp(72px, 12vw, 180px);
+  --fs-display: clamp(48px, 7vw, 96px);
+  --fs-h1:      clamp(40px, 5vw, 64px);
+  --fs-h2:      clamp(28px, 3.4vw, 44px);
+  --fs-h3:      22px;
+  --fs-body:    17px;
+  --fs-small:   14px;
+  --fs-tiny:    11px;
+
+  /* Layout */
+  --nav-w: 240px;
+  --content-max: 1240px;
+  --gutter: clamp(24px, 5vw, 80px);
+  --section-pad-y: clamp(80px, 14vh, 180px);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--fbm-paper);
+  color: var(--fbm-ink);
+  font-family: 'EB Garamond', 'Cormorant Garamond', Garamond, 'Times New Roman', serif;
+  font-size: var(--fs-body);
+  line-height: 1.55;
+  font-feature-settings: "lnum", "kern", "liga";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+
+/* Selection */
+::selection { background: var(--fbm-navy); color: var(--fbm-paper); }
+
+/* ---------- Typography utilities ---------- */
+
+.eyebrow {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--fbm-gold-deep);
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.eyebrow::before,
+.eyebrow.with-rule::after {
+  content: "";
+  width: 24px;
+  height: 1px;
+  background: var(--fbm-gold);
+  display: inline-block;
+}
+
+.eyebrow.no-rule::before { display: none; }
+
+.serif-display {
+  font-family: 'Cormorant Garamond', 'EB Garamond', serif;
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: -0.01em;
+}
+
+.cinzel {
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.mono {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+
+/* ---------- Side navigation ---------- */
+
+.side-nav {
+  position: fixed;
+  left: 0; top: 0; bottom: 0;
+  width: var(--nav-w);
+  background: var(--fbm-paper-warm);
+  border-right: 1px solid var(--fbm-rule);
+  padding: 40px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  z-index: 50;
+  overflow-y: auto;
+}
+
+.side-nav .brand-mark {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--fbm-rule);
+}
+.side-nav .brand-mark .name {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  line-height: 1.35;
+  color: var(--fbm-navy);
+}
+.side-nav .brand-mark .role {
+  font-family: 'Cinzel', serif;
+  font-size: 8.5px;
+  letter-spacing: 0.32em;
+  color: var(--fbm-gold-deep);
+  margin-top: 4px;
+}
+
+.side-nav .nav-label {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  color: var(--fbm-ink-pale);
+}
+
+.side-nav ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.side-nav a {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 10px;
+  align-items: baseline;
+  padding: 8px 0;
+  color: var(--fbm-ink-soft);
+  text-decoration: none;
+  font-family: 'EB Garamond', serif;
+  font-size: 14.5px;
+  line-height: 1.3;
+  transition: color 0.15s;
+  border-bottom: 1px solid transparent;
+}
+.side-nav a:hover { color: var(--fbm-navy); }
+.side-nav a.active { color: var(--fbm-navy); font-weight: 500; }
+.side-nav a.active .num { color: var(--fbm-gold); }
+.side-nav a .num {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--fbm-gold-deep);
+}
+
+.side-nav .footer-meta {
+  margin-top: auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  color: var(--fbm-ink-pale);
+  line-height: 1.6;
+  padding-top: 24px;
+  border-top: 1px solid var(--fbm-rule);
+}
+
+/* ---------- Main scroll area ---------- */
+
+main {
+  margin-left: var(--nav-w);
+}
+
+section.chapter {
+  padding: var(--section-pad-y) var(--gutter);
+  position: relative;
+  scroll-margin-top: 24px;
+}
+
+section.chapter.dark {
+  background: var(--fbm-navy);
+  color: var(--fbm-paper);
+}
+
+section.chapter.deep {
+  background: var(--fbm-navy-deep);
+  color: var(--fbm-paper);
+}
+
+section.chapter.warm {
+  background: var(--fbm-paper-warm);
+}
+
+section.chapter.deep-warm {
+  background: var(--fbm-paper-deep);
+}
+
+.container {
+  max-width: var(--content-max);
+  margin: 0 auto;
+}
+
+/* ---------- Chapter intro ---------- */
+
+.chapter-head {
+  display: grid;
+  grid-template-columns: minmax(80px, 0.5fr) 1fr;
+  gap: clamp(24px, 5vw, 80px);
+  align-items: baseline;
+  margin-bottom: clamp(48px, 8vh, 100px);
+}
+
+.chapter-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(64px, 9vw, 140px);
+  line-height: 1;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--fbm-gold);
+}
+
+.chapter.dark .chapter-num,
+.chapter.deep .chapter-num {
+  color: var(--fbm-gold);
+}
+
+.chapter-title {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.chapter-title h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: var(--fs-h1);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.005em;
+  margin: 0;
+}
+
+.chapter-title .lead {
+  font-family: 'EB Garamond', serif;
+  font-size: clamp(18px, 1.6vw, 22px);
+  line-height: 1.5;
+  color: var(--fbm-ink-soft);
+  max-width: 56ch;
+}
+
+.chapter.dark .chapter-title .lead,
+.chapter.deep .chapter-title .lead {
+  color: var(--fbm-gold-soft);
+}
+
+/* ---------- Cards / blocks ---------- */
+
+.card {
+  background: var(--fbm-paper);
+  border: 1px solid var(--fbm-rule);
+  padding: 32px;
+  position: relative;
+}
+
+.card .card-label {
+  font-family: 'Cinzel', serif;
+  font-size: 9.5px;
+  letter-spacing: 0.3em;
+  color: var(--fbm-gold-deep);
+  margin-bottom: 16px;
+}
+
+/* ---------- Color swatch ---------- */
+
+.swatch {
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.15s;
+  background: white;
+  border: 1px solid var(--fbm-rule);
+}
+.swatch:hover { transform: translateY(-2px); }
+
+.swatch .chip {
+  height: 220px;
+  position: relative;
+}
+.swatch .chip::after {
+  content: attr(data-copy);
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background: rgba(255,255,255,0.85);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  padding: 4px 8px;
+  letter-spacing: 0.08em;
+  color: var(--fbm-ink-soft);
+  opacity: 0;
+  transition: opacity 0.18s;
+  border-radius: 2px;
+}
+.swatch:hover .chip::after { opacity: 1; }
+.swatch.copied .chip::after {
+  content: "Copiado ✓";
+  background: var(--fbm-navy);
+  color: var(--fbm-paper);
+  opacity: 1;
+}
+
+.swatch .meta {
+  padding: 18px 20px;
+}
+.swatch .meta .name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  color: var(--fbm-navy);
+  letter-spacing: 0;
+  margin-bottom: 6px;
+}
+.swatch .meta .role {
+  font-family: 'Cinzel', serif;
+  font-size: 8.5px;
+  letter-spacing: 0.28em;
+  color: var(--fbm-gold-deep);
+  margin-bottom: 14px;
+}
+.swatch .meta .values {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  color: var(--fbm-ink-soft);
+  letter-spacing: 0.02em;
+}
+.swatch .meta .values div {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px dotted var(--fbm-rule);
+  padding: 2px 0;
+}
+.swatch .meta .values div span:first-child {
+  color: var(--fbm-ink-pale);
+}
+
+/* ---------- Specimens / type ---------- */
+
+.specimen {
+  border-top: 1px solid var(--fbm-rule);
+  padding: 32px 0;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 48px;
+  align-items: start;
+}
+.specimen .meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  line-height: 1.7;
+  color: var(--fbm-ink-soft);
+}
+.specimen .meta .name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  color: var(--fbm-navy);
+  margin-bottom: 8px;
+  letter-spacing: 0;
+}
+.specimen .meta .role {
+  font-family: 'Cinzel', serif;
+  font-size: 9.5px;
+  letter-spacing: 0.28em;
+  color: var(--fbm-gold-deep);
+  margin-bottom: 16px;
+}
+.specimen .glyphs {
+  font-size: clamp(32px, 5vw, 56px);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--fbm-navy);
+  word-break: break-word;
+}
+
+/* ---------- Do / Don't ---------- */
+
+.do-dont {
+  border: 1px solid var(--fbm-rule);
+  background: var(--fbm-paper);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.do-dont .preview {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  min-height: 200px;
+  position: relative;
+  overflow: hidden;
+}
+.do-dont .label {
+  border-top: 1px solid var(--fbm-rule);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  color: var(--fbm-ink-soft);
+}
+.do-dont.do .label { color: var(--fbm-success); }
+.do-dont.dont .label { color: var(--fbm-error); }
+.do-dont.dont .preview {
+  background: linear-gradient(135deg, rgba(181,69,62,0.04) 0%, rgba(181,69,62,0.08) 100%);
+}
+.do-dont .badge {
+  position: absolute;
+  top: 12px; right: 12px;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: bold;
+}
+.do-dont.do .badge { background: var(--fbm-success); color: white; }
+.do-dont.dont .badge { background: var(--fbm-error); color: white; }
+
+/* ---------- Hairline divider ---------- */
+
+.divider-gold {
+  height: 1px;
+  background: var(--fbm-gold);
+  border: 0;
+  margin: 32px 0;
+  width: 60px;
+}
+
+.divider-rule {
+  height: 1px;
+  background: var(--fbm-rule);
+  border: 0;
+}
+
+/* ---------- Page numbers / chapter mark in section ---------- */
+
+.section-mark {
+  position: absolute;
+  top: 32px;
+  right: var(--gutter);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: var(--fbm-ink-pale);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-mark::before {
+  content: "";
+  width: 30px;
+  height: 1px;
+  background: var(--fbm-rule);
+  display: inline-block;
+}
+.chapter.dark .section-mark,
+.chapter.deep .section-mark { color: var(--fbm-gold-soft); }
+.chapter.dark .section-mark::before,
+.chapter.deep .section-mark::before { background: var(--fbm-gold); }
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 900px) {
+  :root { --nav-w: 0; --gutter: 24px; }
+  main { margin-left: 0; }
+  .side-nav { display: none; }
+  .chapter-head { grid-template-columns: 1fr; gap: 16px; }
+  .specimen { grid-template-columns: 1fr; gap: 16px; }
+}
