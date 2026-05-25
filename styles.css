@@ -507,10 +507,233 @@ section.chapter.deep-warm {
 
 /* ---------- Responsive ---------- */
 
+/* Mobile top bar — hidden by default, shown on small screens */
+.mobile-bar { display: none; }
+.nav-backdrop { display: none; }
+
 @media (max-width: 900px) {
-  :root { --nav-w: 0; --gutter: 24px; }
-  main { margin-left: 0; }
-  .side-nav { display: none; }
+  :root {
+    --nav-w: 0;
+    --gutter: 20px;
+    --section-pad-y: clamp(56px, 11vh, 100px);
+  }
+
+  main { margin-left: 0; padding-top: 60px; }
+
+  /* Side nav becomes off-canvas drawer */
+  .side-nav {
+    width: 280px;
+    transform: translateX(-100%);
+    transition: transform 0.28s cubic-bezier(0.2, 0.7, 0.2, 1);
+    z-index: 120;
+    padding-top: 72px;
+    box-shadow: 12px 0 40px -20px rgba(21,45,82,0);
+  }
+  .side-nav.open {
+    transform: translateX(0);
+    box-shadow: 12px 0 40px -20px rgba(21,45,82,0.3);
+  }
+
+  .nav-backdrop {
+    display: block;
+    position: fixed; inset: 0;
+    background: rgba(21,45,82,0);
+    z-index: 110;
+    pointer-events: none;
+    transition: background 0.25s;
+  }
+  .nav-backdrop.open {
+    background: rgba(21,45,82,0.4);
+    pointer-events: auto;
+    backdrop-filter: blur(2px);
+  }
+
+  /* Mobile top bar */
+  .mobile-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 60px;
+    padding: 0 16px 0 20px;
+    background: rgba(245, 240, 230, 0.92);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--fbm-rule);
+    z-index: 100;
+  }
+
+  .mobile-bar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--fbm-navy);
+    text-decoration: none;
+  }
+  .mobile-bar-name {
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    letter-spacing: 0.24em;
+    line-height: 1;
+    color: var(--fbm-navy);
+  }
+  .mobile-bar-sub {
+    font-family: 'Cinzel', serif;
+    font-size: 8px;
+    letter-spacing: 0.3em;
+    color: var(--fbm-gold-deep);
+    margin-top: 4px;
+  }
+
+  .mobile-bar-toggle {
+    width: 44px; height: 44px;
+    background: transparent;
+    border: 1px solid var(--fbm-rule);
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .burger {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 18px;
+  }
+  .burger span {
+    display: block;
+    height: 1.5px;
+    background: var(--fbm-navy);
+    transition: transform 0.22s, opacity 0.22s;
+    transform-origin: center;
+  }
+  .burger.open span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
+  .burger.open span:nth-child(2) { opacity: 0; }
+  .burger.open span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
+
+  /* Sledgehammer: force any multi-column inline grid to stack.
+     Inline styles can't be overridden by media queries except with !important
+     attribute selectors. */
+  main [style*="grid-template-columns: repeat(2, 1fr)"],
+  main [style*="grid-template-columns: repeat(3, 1fr)"],
+  main [style*="grid-template-columns: repeat(4, 1fr)"],
+  main [style*="grid-template-columns: repeat(3, auto)"],
+  main [style*="grid-template-columns: 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Two-col grids with measure-based first track: also stack */
+  main [style*="grid-template-columns: 200px 200px 1fr"],
+  main [style*="grid-template-columns: 180px 1fr 180px"],
+  main [style*="grid-template-columns: 220px 1fr"],
+  main [style*="grid-template-columns: 200px 1fr"],
+  main [style*="grid-template-columns: 180px 1fr"],
+  main [style*="grid-template-columns: 130px 1fr"],
+  main [style*="grid-template-columns: 60px 1fr auto"] {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  /* Specs section row: number + name + button → stack number on top, button full-width */
+  main [style*="grid-template-columns: 60px 1fr auto"] {
+    text-align: left;
+  }
+  main [style*="grid-template-columns: 60px 1fr auto"] a {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Cover grid: image card + meta */
+  main [style*="grid-template-columns: minmax(280px, 380px) 1fr"],
+  main [style*="grid-template-columns: minmax(80px, 0.5fr) 1fr"] {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+
+  /* Chapter head: number above title */
   .chapter-head { grid-template-columns: 1fr; gap: 16px; }
-  .specimen { grid-template-columns: 1fr; gap: 16px; }
+  .chapter-num { font-size: 64px; }
+
+  /* Specimens: stack meta above sample */
+  .specimen { grid-template-columns: 1fr; gap: 12px; }
+  .specimen .glyphs { font-size: 32px; }
+
+  /* Section mark sits at top edge */
+  .section-mark { top: 16px; right: var(--gutter); font-size: 9px; }
+  .section-mark::before { width: 18px; }
+
+  /* Type adjustments */
+  :root {
+    --fs-mega: clamp(56px, 18vw, 96px);
+    --fs-display: clamp(40px, 12vw, 64px);
+    --fs-h1: clamp(32px, 8vw, 48px);
+    --fs-h2: clamp(24px, 6vw, 32px);
+  }
+
+  /* Swatch sizing */
+  .swatch .chip { height: 140px !important; }
+
+  /* WhatsApp card stacks */
+  .whatsapp-card-grid {
+    grid-template-columns: 1fr !important;
+    justify-items: center;
+  }
+
+  /* Pillar pattern: fewer columns on mobile */
+  .pillar-pattern-grid {
+    grid-template-columns: repeat(5, 1fr) !important;
+  }
+
+  /* Business cards: scale down */
+  .biz-card { transform: scale(0.85); transform-origin: center; }
+
+  /* Side nav inside drawer: tweak typography */
+  .side-nav .brand-mark .name { font-size: 13px; }
+  .side-nav a { font-size: 15.5px; padding: 12px 0; }
+  .side-nav a .num { font-size: 11px; }
+}
+
+@media (max-width: 600px) {
+  :root {
+    --gutter: 16px;
+  }
+
+  section.chapter { padding-left: 16px; padding-right: 16px; }
+  .chapter-num { font-size: 56px; }
+
+  .container { max-width: 100%; }
+
+  /* Even tighter measure for type families on small screens */
+  .specimen .meta .name { font-size: 18px; }
+
+  /* Drawer takes most of screen */
+  .side-nav { width: 86vw; max-width: 320px; }
+
+  /* Force any 3-up application thumbs into a single column */
+  /* Already handled by selector above */
+
+  /* Numbers in numbering system — slightly smaller on tiny screens */
+  main [style*="font-size: 56px"][style*="line-height: 1"]:not(.chapter-num) {
+    font-size: 40px !important;
+  }
+}
+
+/* Tablet sweet spot — keep some 2-col layouts but stack 3-col */
+@media (min-width: 601px) and (max-width: 900px) {
+  main [style*="grid-template-columns: 1fr 1fr"]:not([style*="repeat"]) {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+@media (max-width: 380px) {
+  :root { --gutter: 12px; }
+  .chapter-num { font-size: 44px; }
+}
+
+/* Allow horizontal scroll for explicitly wide tables we cannot easily stack */
+.mobile-hscroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }

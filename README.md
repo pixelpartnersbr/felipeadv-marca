@@ -1,14 +1,15 @@
 # Manual da Marca — Felipe de Bortoli Munhoz
 
 Site estático com o manual da marca do escritório + aplicações de papel timbrado.
+**Versão 1.1** — agora com suporte mobile completo.
 
 ## Estrutura
 
 ```
 .
 ├── index.html              ← manual da marca (entrada principal)
-├── styles.css              ← estilos globais
-├── components/             ← Logo, navegação
+├── styles.css              ← estilos globais + responsivos
+├── components/             ← Logo, navegação (com drawer mobile)
 ├── sections/               ← os 10 capítulos do manual
 ├── assets/                 ← logo original (referência)
 ├── letterhead/             ← canvas de papel timbrado + 3 versões para impressão
@@ -39,6 +40,15 @@ vercel
 - **Build Command:** *(vazio)*
 - **Output Directory:** *(vazio — usa a raiz)*
 - **Install Command:** *(vazio)*
+
+## Responsividade
+
+A partir desta versão (1.1), o manual funciona em:
+- **Desktop** (> 900px): nav lateral fixa, layouts em múltiplas colunas
+- **Tablet** (601–900px): nav lateral vira drawer, layouts híbridos
+- **Mobile** (≤ 600px): barra superior com menu hambúrguer, tudo em coluna única, type scale reduzida
+
+Breakpoints principais: 900px e 600px.
 
 ## Detalhes técnicos
 

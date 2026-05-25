@@ -166,7 +166,7 @@ function BusinessCard({ side }) {
   return (
     <div style={{ background: "var(--fbm-paper-warm)", border: "1px solid var(--fbm-rule)" }}>
       <div style={{ padding: 40, display: "flex", alignItems: "center", justifyContent: "center", minHeight: 280 }}>
-        <div style={{
+        <div className="biz-card" style={{
           width: 360,
           aspectRatio: "1.586",
           background: side === "front" ? "var(--fbm-paper)" : "var(--fbm-navy)",
@@ -439,7 +439,7 @@ function PostTpl({ variant }) {
 
 function WhatsAppCard() {
   return (
-    <div style={{
+    <div className="whatsapp-card-grid" style={{
       background: "var(--fbm-paper-warm)",
       border: "1px solid var(--fbm-rule)",
       padding: 48,

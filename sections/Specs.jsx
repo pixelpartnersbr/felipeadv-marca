@@ -258,46 +258,48 @@ function FormatMatrix() {
   ];
 
   return (
-    <div style={{
-      background: "var(--fbm-navy-deep)",
-      border: "1px solid var(--fbm-navy-soft)",
-      marginBottom: 80,
-    }}>
+    <div className="mobile-hscroll" style={{ marginBottom: 80 }}>
       <div style={{
-        display: "grid",
-        gridTemplateColumns: "1.4fr 1fr 1.4fr",
-        background: "var(--fbm-navy)",
-        padding: "16px 24px",
+        background: "var(--fbm-navy-deep)",
+        border: "1px solid var(--fbm-navy-soft)",
+        minWidth: 540,
       }}>
-        {["Aplicação", "Formato", "Variação"].map(h => (
-          <div key={h} className="cinzel" style={{
-            fontSize: 9.5, letterSpacing: "0.3em",
-            color: "var(--fbm-gold)",
-          }}>{h}</div>
-        ))}
-      </div>
-      {rows.map((r, i) => (
-        <div key={i} style={{
+        <div style={{
           display: "grid",
           gridTemplateColumns: "1.4fr 1fr 1.4fr",
+          background: "var(--fbm-navy)",
           padding: "16px 24px",
-          borderTop: "1px solid var(--fbm-navy-soft)",
-          alignItems: "center",
-          fontSize: 14,
         }}>
-          <div style={{ color: "var(--fbm-paper)" }}>{r[0]}</div>
-          <div className="mono" style={{
-            color: "var(--fbm-gold-soft)",
-            fontSize: 11,
-            letterSpacing: "0.05em",
-          }}>{r[1]}</div>
-          <div style={{
-            color: "var(--fbm-gold-soft)",
-            fontStyle: "italic",
-            fontSize: 14,
-          }}>{r[2]}</div>
+          {["Aplicação", "Formato", "Variação"].map(h => (
+            <div key={h} className="cinzel" style={{
+              fontSize: 9.5, letterSpacing: "0.3em",
+              color: "var(--fbm-gold)",
+            }}>{h}</div>
+          ))}
         </div>
-      ))}
+        {rows.map((r, i) => (
+          <div key={i} style={{
+            display: "grid",
+            gridTemplateColumns: "1.4fr 1fr 1.4fr",
+            padding: "16px 24px",
+            borderTop: "1px solid var(--fbm-navy-soft)",
+            alignItems: "center",
+            fontSize: 14,
+          }}>
+            <div style={{ color: "var(--fbm-paper)" }}>{r[0]}</div>
+            <div className="mono" style={{
+              color: "var(--fbm-gold-soft)",
+              fontSize: 11,
+              letterSpacing: "0.05em",
+            }}>{r[1]}</div>
+            <div style={{
+              color: "var(--fbm-gold-soft)",
+              fontStyle: "italic",
+              fontSize: 14,
+            }}>{r[2]}</div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
