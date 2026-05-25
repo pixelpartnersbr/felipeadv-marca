@@ -223,7 +223,7 @@ function PillarPattern() {
       position: "relative",
       overflow: "hidden",
     }}>
-      <div style={{
+      <div className="pillar-pattern-grid" style={{
         display: "grid",
         gridTemplateColumns: `repeat(${cols}, 1fr)`,
         gridTemplateRows: `repeat(${rows}, 1fr)`,
